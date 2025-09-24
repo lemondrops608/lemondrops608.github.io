@@ -1,0 +1,1016 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/lemonicon.jpg">
+  <link rel="icon" href="/img/lemonicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mingtao Nie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一些面试的问题，问题来源多种多样，一些问题的回答采用了AI的回复，后期可能重新组织文章结构 unordered_map和dict的底层实现是什么unordered_map（C++）和dict（Python）都是编程中常用的关联数组（或叫字典、映射）实现，它们底层都基于哈希表（Hash Table），但在具体实现细节上有所不同。下面我将用一个表格对比它们的核心特征，然后详细解释它们的底层实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interview questions preparation">
+<meta property="og:url" content="http://example.com/2025/09/24/Interview-questions-preparation/index.html">
+<meta property="og:site_name" content="Lemondrops&#39; Blog">
+<meta property="og:description" content="一些面试的问题，问题来源多种多样，一些问题的回答采用了AI的回复，后期可能重新组织文章结构 unordered_map和dict的底层实现是什么unordered_map（C++）和dict（Python）都是编程中常用的关联数组（或叫字典、映射）实现，它们底层都基于哈希表（Hash Table），但在具体实现细节上有所不同。下面我将用一个表格对比它们的核心特征，然后详细解释它们的底层实现。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-24T02:10:30.000Z">
+<meta property="article:modified_time" content="2025-09-24T02:41:55.243Z">
+<meta property="article:author" content="Mingtao Nie">
+<meta property="article:tag" content="Interview Question">
+<meta property="article:tag" content="408">
+<meta property="article:tag" content="八股">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Interview questions preparation - Lemondrops&#39; Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lemondrops&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>Links</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background_whitecliff1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Interview questions preparation"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Mingtao Nie
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-24 10:10" pubdate>
+          September 24, 2025 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Interview questions preparation</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    Last updated on September 24, 2025 am
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>一些面试的问题，问题来源多种多样，一些问题的回答采用了AI的回复，后期可能重新组织文章结构</p>
+<h1 id="unordered-map和dict的底层实现是什么"><a href="#unordered-map和dict的底层实现是什么" class="headerlink" title="unordered_map和dict的底层实现是什么"></a>unordered_map和dict的底层实现是什么</h1><p>unordered_map（C++）和dict（Python）都是编程中常用的关联数组（或叫字典、映射）实现，它们底层都基于哈希表（Hash Table），但在具体实现细节上有所不同。下面我将用一个表格对比它们的核心特征，然后详细解释它们的底层实现。</p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">C++ <code>unordered_map</code></th>
+<th align="left">Python <code>dict</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>底层结构</strong></td>
+<td align="left">哈希表 (Hash Table)</td>
+<td align="left">哈希表 (Hash Table)</td>
+</tr>
+<tr>
+<td align="left"><strong>冲突解决</strong></td>
+<td align="left"><strong>开链法</strong> (Separate Chaining)，桶内超限可能转红黑树</td>
+<td align="left"><strong>开放寻址法</strong> (Open Addressing)，伪随机探测</td>
+</tr>
+<tr>
+<td align="left"><strong>哈希函数</strong></td>
+<td align="left">使用 <code>std::hash</code> 或自定义函数对象</td>
+<td align="left">使用内置 <code>hash()</code> 函数</td>
+</tr>
+<tr>
+<td align="left"><strong>内存管理与扩容</strong></td>
+<td align="left">需手动设置或依赖默认的桶数和最大负载因子</td>
+<td align="left">自动扩容，无需手动干预</td>
+</tr>
+<tr>
+<td align="left"><strong>键的可哈希要求</strong></td>
+<td align="left">键类型需支持哈希计算和 <code>==</code> 比较</td>
+<td align="left">键必须是<strong>不可变</strong>且可哈希的类型</td>
+</tr>
+<tr>
+<td align="left"><strong>有序性</strong></td>
+<td align="left"><strong>无序</strong></td>
+<td align="left">自 <strong>Python 3.7</strong> 起<strong>保持插入顺序</strong></td>
+</tr>
+</tbody></table>
+<h3 id="🔍-底层实现原理"><a href="#🔍-底层实现原理" class="headerlink" title="🔍 底层实现原理"></a>🔍 底层实现原理</h3><h4 id="C-unordered-map"><a href="#C-unordered-map" class="headerlink" title="C++ unordered_map"></a>C++ <code>unordered_map</code></h4><p><code>unordered_map</code> 的底层是一个动态数组，数组的每个元素是一个“桶”（bucket），桶背后连接着一个链表（或小型容器）。当你插入一个键值对时：</p>
+<ol>
+<li><strong>计算哈希值</strong>：首先对键（key）应用哈希函数（默认是 <code>std::hash</code> 的特化版本），得到一个哈希值（一个大的整数）。</li>
+<li><strong>确定桶索引</strong>：将这个哈希值对当前桶数组的大小（<code>bucket_count</code>）取模，从而确定该键值对应放入哪个桶中。</li>
+<li><strong>处理冲突</strong>：如果多个键映射到同一个桶（哈希冲突），<code>unordered_map</code> 采用<strong>开链法</strong>（Separate Chaining），将这些发生冲突的键值以链表形式存储在同一个桶内。在某些实现（如某些标准库）中，当单个桶内的元素数量超过一定阈值（例如8个），为了提升查询效率，可能会将链表转换为红黑树。</li>
+<li><strong>动态扩容（Rehashing）</strong>：哈希表有一个<strong>负载因子</strong>（load factor），即 <code>元素数量 / 桶的数量</code>。当负载因子超过预设的最大值（默认通常是 <code>1.0</code>）时，为了保持操作的高效性，容器会自动进行扩容。这会创建一个新的、更大的桶数组，并将所有已有的键值对<strong>重新哈希</strong>（rehash）到新的桶数组中。扩容是一个相对耗时的操作。</li>
+</ol>
+<h4 id="Python-dict"><a href="#Python-dict" class="headerlink" title="Python dict"></a>Python <code>dict</code></h4><p>Python 的 <code>dict</code> 同样基于哈希表，但具体实现细节有所不同：</p>
+<ol>
+<li><strong>计算哈希值</strong>：对键使用内置的 <code>hash()</code> 函数得到哈希值。</li>
+<li><strong>确定索引</strong>：利用哈希值的某些位计算出一个索引值（在 CPython 实现中，这个过程会考虑当前哈希表的大小）。</li>
+<li><strong>处理冲突</strong>：Python 使用的是<strong>开放寻址法</strong>（Open Addressing）中的<strong>伪随机探测</strong>（pseudo-random probing）。当发生冲突时，它会根据一个特定的探测序列（pseudo-random probe sequence）在数组中寻找下一个可用的空位，而不是像开链法那样使用链表。</li>
+<li><strong>动态扩容</strong>：Python 字典会自动扩容。当哈希表的拥挤程度（大致可理解为剩余空间比例）低于某个阈值时，解释器会分配一个更大的内存空间，并重新插入所有键值对。</li>
+</ol>
+<h3 id="⚠️-注意事项与特点"><a href="#⚠️-注意事项与特点" class="headerlink" title="⚠️ 注意事项与特点"></a>⚠️ 注意事项与特点</h3><ul>
+<li><strong>键的类型</strong>：无论是 <code>unordered_map</code> 还是 <code>dict</code>，<strong>键必须是可哈希的</strong>。在 C++ 中，这意味着自定义类型需要提供哈希函数和等值比较函数。在 Python 中，键必须是<strong>不可变类型</strong>（如整数、浮点数、字符串、元组等），因为可变对象（如列表、字典、集合）的哈希值可能会变，这会破坏哈希表的完整性。</li>
+<li><strong>性能</strong>：在平均情况下，两者插入、删除、查找操作的时间复杂度都是 <strong>O(1)</strong>。但在最坏情况下（例如所有键都发生哈希冲突），性能会下降。<ul>
+<li>对于 <code>unordered_map</code>，最坏情况复杂度可能达到 O(n)，如果许多键都哈希到同一个桶，导致链表很长（或者树变得复杂）。</li>
+<li>对于 <code>dict</code>，在极端冲突下，开放寻址法的查找时间也会增加。</li>
+</ul>
+</li>
+<li><strong>内存使用</strong>：<code>unordered_map</code> 的开链法每个元素会有额外的指针开销（指向链表下一个节点或树结构）。<code>dict</code> 的开放寻址法通常更节省内存，并且由于其数据存储在连续数组中，<strong>缓存局部性（Cache Locality）更好</strong>，这在许多情况下能带来实际的速度提升。</li>
+<li><strong>顺序</strong>：C++ <code>unordered_map</code><strong>不保证</strong>任何特定的遍历顺序，并且顺序可能会随着扩容重新哈希而改变。Python 的 <code>dict</code> 自 3.7 版本起<strong>官方保证</strong>遍历顺序即为元素的插入顺序。</li>
+</ul>
+<h3 id="💡-如何选择和使用"><a href="#💡-如何选择和使用" class="headerlink" title="💡 如何选择和使用"></a>💡 如何选择和使用</h3><ul>
+<li><strong>C++</strong>：当需要<strong>快速的键值查找且不关心顺序</strong>时，优先选择 <code>unordered_map</code> 而不是 <code>map</code>（基于红黑树，有序，操作复杂度为 O(log n)）。如果需要<strong>有序遍历</strong>，则使用 <code>map</code>。</li>
+<li><strong>Python</strong>：直接使用 <code>dict</code> 即可。它的实现在大多数情况下都非常高效，并且保持了插入顺序，非常实用。</li>
+</ul>
+<p>希望这些解释能帮助你更深入地理解 <code>unordered_map</code> 和 <code>dict</code>。如果你有其他问题，欢迎继续提出。</p>
+<hr>
+<h1 id="pandas和numpy的底层和一些函数的底层实现"><a href="#pandas和numpy的底层和一些函数的底层实现" class="headerlink" title="pandas和numpy的底层和一些函数的底层实现"></a>pandas和numpy的底层和一些函数的底层实现</h1><p>Pandas 和 NumPy 是 Python 数据科学的核心，虽然常协同工作，但设计目标和底层实现各有侧重。下面这张表格汇总了它们的核心差异，帮你快速把握全貌。</p>
+<table>
+<thead>
+<tr>
+<th align="left">特性维度</th>
+<th align="left">NumPy</th>
+<th align="left">Pandas</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>核心数据结构</strong></td>
+<td align="left"><code>ndarray</code> (N维数组)</td>
+<td align="left"><code>Series</code>, <code>DataFrame</code> (带标签的表格结构)</td>
+</tr>
+<tr>
+<td align="left"><strong>设计目标</strong></td>
+<td align="left"><strong>高效的数值计算</strong></td>
+<td align="left"><strong>灵活的数据处理与分析</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>数据同质性</strong></td>
+<td align="left"><strong>同质</strong>：数组内元素类型必须一致</td>
+<td align="left"><strong>异构</strong>：DataFrame 的不同列可以是不同类型</td>
+</tr>
+<tr>
+<td align="left"><strong>索引机制</strong></td>
+<td align="left">主要为整数索引</td>
+<td align="left">支持灵活的标签索引、多层索引和布尔索引</td>
+</tr>
+<tr>
+<td align="left"><strong>缺失值处理</strong></td>
+<td align="left">较基础</td>
+<td align="left"><strong>原生支持</strong> <code>NaN</code>，并提供丰富的处理方法</td>
+</tr>
+<tr>
+<td align="left"><strong>内存布局</strong></td>
+<td align="left"><strong>单一连续内存块</strong></td>
+<td align="left">列存储（每列一个独立数组），附加索引结构</td>
+</tr>
+<tr>
+<td align="left"><strong>性能侧重</strong></td>
+<td align="left">大规模数值运算（如矩阵乘法、傅里叶变换）</td>
+<td align="left">数据清洗、转换、聚合、关系型操作</td>
+</tr>
+<tr>
+<td align="left"><strong>底层语言</strong></td>
+<td align="left">大量 C&#x2F;C++ 和 Cython 实现</td>
+<td align="left">构建于 NumPy 之上，大量使用 C&#x2F;C++ 和 Cython 实现</td>
+</tr>
+</tbody></table>
+<p>🧠 接下来，我们深入看看它们的一些核心底层机制。</p>
+<h3 id="🔧-NumPy-的底层实现"><a href="#🔧-NumPy-的底层实现" class="headerlink" title="🔧 NumPy 的底层实现"></a>🔧 NumPy 的底层实现</h3><p>NumPy 的核心是 <code>ndarray</code>（N-dimensional array），它包含以下关键属性[citation：7]：</p>
+<ul>
+<li><strong>数据缓冲区（Data Buffer）</strong>：一个<strong>连续的内存块</strong>，存储所有数组元素。这种连续的内存布局是现代 CPU 高效访问数据的基石。</li>
+<li><strong>形状（Shape）</strong>：描述数组维度的元组。</li>
+<li><strong>数据类型（Dtype）</strong>：指定数组中元素的数据类型（如 <code>int64</code>, <code>float32</code>），确保了数据的同质性。</li>
+<li><strong>步幅（Strides）</strong>：一个元组，表示遍历数组每个维度时需要在内存中步进的字节数。这使得数组可以以不同视角查看数据而无需复制。</li>
+</ul>
+<p>NumPy 的高性能很大程度上源于<strong>向量化操作</strong>。这些操作通过 <strong>通用函数（ufuncs）</strong> 实现，其底层是 C&#x2F;C++ 代码，避免了 Python 循环的开销，并充分利用了现代 CPU 的 SIMD（单指令多数据流）指令集进行并行计算。</p>
+<p><strong>广播机制（Broadcasting）</strong> 是 NumPy 的另一个核心特性。它允许不同形状的数组进行算术运算。其规则是：从维度最右边开始对齐，维度相等或其中一方为 1 时即可广播。NumPy 会自动将较小的数组“拉伸”以匹配较大数组的形状，从而无需显式复制数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># 向量化操作示例：整个数组相加</span><br>a = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br>b = np.array([<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>])<br>c = a + b  <span class="hljs-comment"># 在C层执行高效循环，而非Python层</span><br><br><span class="hljs-comment"># 广播机制示例：标量与数组相乘</span><br>arr = np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]])<br>result = arr * <span class="hljs-number">2</span>  <span class="hljs-comment"># 标量值2被广播到与arr相同的形状</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="🗃️-Pandas-的底层实现"><a href="#🗃️-Pandas-的底层实现" class="headerlink" title="🗃️ Pandas 的底层实现"></a>🗃️ Pandas 的底层实现</h3><p>Pandas 的 <code>Series</code> 和 <code>DataFrame</code> 构建于 NumPy 之上。<code>Series</code> 可看作一个带索引的一维 NumPy 数组，而 <code>DataFrame</code> 是一个由多个 <code>Series</code>（列）组成的二维表格，这些列<strong>共享相同的索引</strong>。</p>
+<p>Pandas 采用<strong>列式存储</strong>。每个 <code>DataFrame</code> 的每一列都是一个独立的内存连续的 NumPy 数组（或类似结构）。这种布局对于按列进行的聚合和计算非常高效，但按行操作可能较慢。</p>
+<p>Pandas 的<strong>索引引擎</strong>是其高效数据查询的关键。索引（如 <code>RangeIndex</code>, <code>Int64Index</code>, <code>CategoricalIndex</code>, <code>DatetimeIndex</code>）一旦创建通常是不可变的，类似于字典的键。它使用<strong>哈希表</strong>（对于无序索引）或<strong>二分查找</strong>（对于有序索引）来快速映射标签到数据位置，使得基于标签的查询（如 <code>df.loc[label]</code>）非常高效。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><br><span class="hljs-comment"># 创建一个简单的DataFrame</span><br>df = pd.DataFrame(&#123;<br>    <span class="hljs-string">&#x27;age&#x27;</span>: [<span class="hljs-number">25</span>, <span class="hljs-number">30</span>, <span class="hljs-number">35</span>],<br>    <span class="hljs-string">&#x27;salary&#x27;</span>: [<span class="hljs-number">50000</span>, <span class="hljs-number">60000</span>, <span class="hljs-number">70000</span>]<br>&#125;, index=[<span class="hljs-string">&#x27;Alice&#x27;</span>, <span class="hljs-string">&#x27;Bob&#x27;</span>, <span class="hljs-string">&#x27;Charlie&#x27;</span>])<br><br><span class="hljs-comment"># .loc[] 使用索引引擎进行快速标签查找</span><br>alice_salary = df.loc[<span class="hljs-string">&#x27;Alice&#x27;</span>, <span class="hljs-string">&#x27;salary&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<p>Pandas 2.0 引入了对 <strong>Apache Arrow</strong> 的支持作为另一种后端。Arrow 提供了更高效的内存布局和跨语言能力，尤其在处理字符串和非数值数据时能提升性能并减少内存占用。</p>
+<h3 id="⚙️-核心函数的底层实现"><a href="#⚙️-核心函数的底层实现" class="headerlink" title="⚙️ 核心函数的底层实现"></a>⚙️ 核心函数的底层实现</h3><p>许多高性能操作的背后是精心优化的底层代码。</p>
+<ul>
+<li><strong>NumPy 的 <code>np.dot()</code> (矩阵乘法)</strong>：通常会调用底层高度优化的 <strong>BLAS</strong> (Basic Linear Algebra Subprograms) 库（如 OpenBLAS, Intel MKL）的实现。这些库针对特定 CPU 架构进行了极致优化。</li>
+<li><strong>Pandas 的 <code>groupby().mean()</code></strong>：虽然表面是单行代码，底层可能涉及：<ol>
+<li>根据键对行进行哈希或排序，形成分组。</li>
+<li>对每个分组的数值列调用相应的 NumPy 聚合函数（如 <code>np.mean</code>）。</li>
+<li>将结果组装成新的 <code>DataFrame</code>。<br>整个流程在 Cython&#x2F;C 层实现，避免了 Python 循环。</li>
+</ol>
+</li>
+</ul>
+<h3 id="🤝-高效协作之道"><a href="#🤝-高效协作之道" class="headerlink" title="🤝 高效协作之道"></a>🤝 高效协作之道</h3><p>NumPy 和 Pandas 协同工作，形成了高效的数据处理流程：</p>
+<ol>
+<li><strong>使用 Pandas 进行数据导入和清洗</strong>：利用其强大的 IO 工具（如 <code>read_csv</code>）和数据处理功能（处理缺失值、字符串操作、时间序列解析等）。</li>
+<li><strong>转换为 NumPy 数组进行核心数值计算</strong>：在需要执行复杂数学运算、机器学习模型训练时，通过 <code>.values</code> 或 <code>.to_numpy()</code> 将 Pandas 数据转换为 NumPy 数组，以发挥其数值计算极限性能。</li>
+<li><strong>(可选) 结果转回 Pandas 进行展示或输出</strong>：将计算结果重新包装回 <code>DataFrame</code>，便于后续的标签化操作、可视化或导出。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 典型工作流：Pandas 用于数据准备，NumPy 用于计算</span><br>df = pd.read_csv(<span class="hljs-string">&#x27;data.csv&#x27;</span>)  <span class="hljs-comment"># Pandas 读取数据</span><br>df_cleaned = df.dropna()  <span class="hljs-comment"># Pandas 清洗数据</span><br><br><span class="hljs-comment"># 提取数值列转换为 NumPy 数组进行高强度计算</span><br>matrix = df_cleaned[[<span class="hljs-string">&#x27;feature1&#x27;</span>, <span class="hljs-string">&#x27;feature2&#x27;</span>]].to_numpy()<br><span class="hljs-comment"># 使用 NumPy 进行奇异值分解 (SVD)</span><br>u, s, vh = np.linalg.svd(matrix)<br><br><span class="hljs-comment"># 将结果转回 Pandas 进行展示</span><br>result_df = pd.DataFrame(u, index=df_cleaned.index)<br><span class="hljs-built_in">print</span>(result_df.head())<br></code></pre></td></tr></table></figure>
+
+<h3 id="💡-性能优化技巧"><a href="#💡-性能优化技巧" class="headerlink" title="💡 性能优化技巧"></a>💡 性能优化技巧</h3><ul>
+<li><strong>优先使用向量化操作</strong>：无论在 NumPy 还是 Pandas 中，都应尽量避免显式的 Python 循环，充分利用其内置的、基于 C 的向量化方法。</li>
+<li><strong>关注数据类型</strong>：在 Pandas 中，使用合适的数据类型能显著减少内存占用并提升速度。例如：<ul>
+<li>用 <code>pd.to_numeric(..., downcast=&#39;integer&#39;)</code> 向下转换整数类型。</li>
+<li>对低基数（重复值多）的字符串列使用 <code>astype(&#39;category&#39;)</code>。</li>
+<li>使用 <code>pd.to_datetime</code> 转换日期时间。</li>
+</ul>
+</li>
+<li><strong>警惕复制操作</strong>：理解 NumPy 的视图（view）与副本（copy）以及 Pandas 的 <code>copy=False</code> 等选项，避免不必要的内存复制。</li>
+</ul>
+<p>理解 Pandas 和 NumPy 的底层机制，能帮助你在数据处理任务中选择正确的工具和方法，从而编写出更高效、更优雅的代码。</p>
+<hr>
+<h1 id="fork-和spawn-分别是什么，以及对应的内存"><a href="#fork-和spawn-分别是什么，以及对应的内存" class="headerlink" title="fork()和spawn()分别是什么，以及对应的内存"></a>fork()和spawn()分别是什么，以及对应的内存</h1><p>理解 <code>fork()</code> 和 <code>spawn()</code> 这两种创建子进程的方式及其内存管理机制，对于编写高效、稳定的程序很重要。下面我将为你解释它们的特点、内存处理方式以及如何选择。</p>
+<h3 id="📊-核心特性对比"><a href="#📊-核心特性对比" class="headerlink" title="📊 核心特性对比"></a>📊 核心特性对比</h3><table>
+<thead>
+<tr>
+<th align="left">特性维度</th>
+<th align="left">fork()</th>
+<th align="left">spawn() (或 posix_spawn())</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>创建机制</strong></td>
+<td align="left">复制父进程状态</td>
+<td align="left">启动新程序</td>
+</tr>
+<tr>
+<td align="left"><strong>内存管理</strong></td>
+<td align="left"><strong>写时复制 (Copy-On-Write)</strong></td>
+<td align="left">全新加载</td>
+</tr>
+<tr>
+<td align="left"><strong>执行速度</strong></td>
+<td align="left">快（内存延迟复制）</td>
+<td align="left">慢（需加载新程序）</td>
+</tr>
+<tr>
+<td align="left"><strong>资源继承</strong></td>
+<td align="left">继承父进程大部分资源（文件描述符、内存状态等）</td>
+<td align="left">不继承父进程资源（或仅继承必要部分）</td>
+</tr>
+<tr>
+<td align="left"><strong>安全性</strong></td>
+<td align="left">相对较低（继承父进程状态可能带来风险）</td>
+<td align="left">较高（进程独立，起点干净）</td>
+</tr>
+<tr>
+<td align="left"><strong>平台支持</strong></td>
+<td align="left">主要类 Unix 系统（Linux, macOS）</td>
+<td align="left">跨平台（包括 Windows）</td>
+</tr>
+<tr>
+<td align="left"><strong>适用场景</strong></td>
+<td align="left">需要快速创建类似父进程的子进程</td>
+<td align="left">需要启动全新程序或注重安全隔离的场景</td>
+</tr>
+</tbody></table>
+<h3 id="🧠-工作机制与内存管理"><a href="#🧠-工作机制与内存管理" class="headerlink" title="🧠 工作机制与内存管理"></a>🧠 工作机制与内存管理</h3><h4 id="1-fork"><a href="#1-fork" class="headerlink" title="1. fork()"></a>1. fork()</h4><p><code>fork()</code> 是类 Unix 系统中创建新进程的传统方式。</p>
+<ul>
+<li><strong>工作原理</strong>：<code>fork()</code> 通过<strong>复制父进程的地址空间</strong>来创建子进程。子进程几乎是父进程的完整副本，包括代码段、数据段、堆栈段和打开的文件描述符等。子进程会获得一个新的进程 ID（PID），并与父进程独立运行。</li>
+<li><strong>写时复制 (Copy-On-Write, COW)</strong>：现代操作系统（如 Linux）使用<strong>写时复制</strong>技术来优化 <code>fork()</code> 的性能和减少内存开销。这意味着：<ul>
+<li>在 <code>fork()</code> 之后，<strong>父子进程最初共享相同的物理内存页</strong>。</li>
+<li>只有当<strong>父进程或子进程试图修改某块内存数据</strong>时，操作系统才会<strong>为该进程分配新的物理内存页并复制原始数据</strong>，然后才执行修改。</li>
+<li>这种机制避免了不必要的内存复制，大大提高了 <code>fork()</code> 的效率，尤其是在子进程立即调用 <code>exec()</code> 执行新程序的情况下（因为可能很多内存页根本不会被修改）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-spawn-或-posix-spawn"><a href="#2-spawn-或-posix-spawn" class="headerlink" title="2. spawn() (或 posix_spawn())"></a>2. spawn() (或 posix_spawn())</h4><p><code>spawn()</code> 是一组函数（如 <code>posix_spawn()</code>），它提供了另一种启动新进程的方式，通常更加灵活。</p>
+<ul>
+<li><strong>工作原理</strong>：<code>spawn()</code> <strong>不复制父进程的地址空间</strong>，而是直接<strong>加载并执行一个新的程序</strong>。新进程从程序的入口点（如 <code>main</code> 函数）开始执行，拥有全新的内存空间。</li>
+<li><strong>内存管理</strong>：由于是全新加载，<strong>子进程不继承父进程的数据段、堆或栈</strong>。它只有程序本身和任何显式传递的环境变量、参数所定义的内存状态。这自然形成了进程间的隔离。</li>
+</ul>
+<h3 id="⚙️-特点与使用场景"><a href="#⚙️-特点与使用场景" class="headerlink" title="⚙️ 特点与使用场景"></a>⚙️ 特点与使用场景</h3><ul>
+<li><p><strong>fork() 的特点与场景</strong>：</p>
+<ul>
+<li><strong>特点</strong>：启动速度快（得益于 COW）；子进程继承父进程状态（包括文件描述符，这有时很方便，但也可能导致意外共享资源）；在父进程多线程情况下 fork 可能导致某些状态不一致。</li>
+<li><strong>典型场景</strong>：<ul>
+<li>创建子进程并执行<strong>与父进程类似的任务</strong>。</li>
+<li>配合 <code>exec()</code> 系列函数使用：先 <code>fork()</code> 出子进程，然后在子进程中立即调用 <code>exec()</code> 来执行另一个程序。这是一种常见模式，COW 机制在此模式下效率很高。</li>
+<li><strong>网络服务</strong>中，为每个新连接创建一个新的子进程来处理（例如传统的 CGI 模式）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>spawn() 的特点与场景</strong>：</p>
+<ul>
+<li><strong>特点</strong>：启动速度相对较慢（需要加载新程序）；子进程环境干净，与父进程隔离性好；<strong>跨平台支持更好</strong>（Windows 也支持类似的机制，虽然 Windows 没有原生的 <code>fork()</code>）。</li>
+<li><strong>典型场景</strong>：<ul>
+<li>需要<strong>启动一个完全不同的程序</strong>。</li>
+<li>注重<strong>安全性和隔离性</strong>，不希望子进程继承父进程的任何状态。</li>
+<li>在<strong>跨平台应用程序</strong>中创建新进程。</li>
+<li>在涉及 <strong>GPU 加速</strong> 或操作<strong>外部硬件资源</strong> 时，使用 <code>spawn</code> 可以避免子进程继承父进程的硬件上下文（如 CUDA 上下文），从而防止潜在的错误和资源冲突。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="🧪-代码示例"><a href="#🧪-代码示例" class="headerlink" title="🧪 代码示例"></a>🧪 代码示例</h3><h4 id="C-语言中的-fork"><a href="#C-语言中的-fork" class="headerlink" title="C 语言中的 fork()"></a>C 语言中的 fork()</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">pid_t</span> pid = fork(); <span class="hljs-comment">// 创建子进程</span><br><br>    <span class="hljs-keyword">if</span> (pid &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Fork failed\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// 子进程</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Child process: My PID is %d\n&quot;</span>, getpid());<br>        <span class="hljs-comment">// 子进程可以在这里执行任务或调用 exec</span><br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 父进程</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Parent process: My PID is %d, Child&#x27;s PID is %d\n&quot;</span>, getpid(), pid);<br>        wait(<span class="hljs-literal">NULL</span>); <span class="hljs-comment">// 等待子进程结束</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Python-multiprocessing-中设置-spawn"><a href="#Python-multiprocessing-中设置-spawn" class="headerlink" title="Python multiprocessing 中设置 spawn"></a>Python multiprocessing 中设置 spawn</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> multiprocessing <span class="hljs-keyword">as</span> mp<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">worker</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Worker process executing&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># 设置使用 spawn 方式创建进程</span><br>    mp.set_start_method(<span class="hljs-string">&#x27;spawn&#x27;</span>) <span class="hljs-comment"># 在 Windows 和 macOS 上 spawn 是默认方式</span><br>    p = mp.Process(target=worker)<br>    p.start()<br>    p.join()<br></code></pre></td></tr></table></figure>
+
+<h3 id="💡-如何选择-fork-和-spawn"><a href="#💡-如何选择-fork-和-spawn" class="headerlink" title="💡 如何选择 fork() 和 spawn()"></a>💡 如何选择 fork() 和 spawn()</h3><ol>
+<li><strong>优先考虑 spawn</strong>：尤其是在编写<strong>新代码</strong>或需要<strong>跨平台</strong>时，或者当程序涉及<strong>多线程</strong>、<strong>硬件资源（如 GPU）</strong> 时，使用 <code>spawn</code> 通常更安全，能避免许多因继承状态而导致的潜在问题。</li>
+<li><strong>谨慎使用 fork()</strong>：在<strong>类 Unix 系统</strong>上，如果<strong>非常注重创建进程的速度</strong>，且能<strong>确保 fork 后父进程状态是安全的</strong>（例如，没有其他线程在运行，或能妥善处理继承的资源），并且之后很可能调用 <code>exec()</code>，那么 <code>fork()</code> 是一个高效的选择。</li>
+<li><strong>注意平台差异</strong>：Windows 系统<strong>不支持</strong>原生的 <code>fork()</code>。在 Python 等跨语言环境中，Windows 上 <code>multiprocessing</code> 的默认启动方式就是 <code>spawn</code>。</li>
+</ol>
+<h3 id="💎-总结"><a href="#💎-总结" class="headerlink" title="💎 总结"></a>💎 总结</h3><p><code>fork()</code> 和 <code>spawn()</code> 是两种不同的进程创建哲学：</p>
+<ul>
+<li><code>fork()</code> 类似于“分身”，<strong>继承</strong>父进程的衣钵，通过<strong>写时复制</strong>优化内存，在符合其使用场景时非常高效。</li>
+<li><code>spawn()</code> 类似于“新生”，<strong>强调隔离与安全</strong>，从头开始加载程序，牺牲一些速度换来更好的稳定性和跨平台支持。</li>
+</ul>
+<p>选择哪一种，取决于你的具体需求：是追求极致的创建速度（并在能控制风险的前提下），还是更看重进程的独立性和代码的健壮性。</p>
+<p>希望这些信息能帮助你更好地理解 fork() 和 spawn()。如果你还有其他问题，欢迎提出。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/" class="category-chain-item">面试准备</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Interview-Question/" class="print-no-link">#Interview Question</a>
+      
+        <a href="/tags/408/" class="print-no-link">#408</a>
+      
+        <a href="/tags/%E5%85%AB%E8%82%A1/" class="print-no-link">#八股</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Interview questions preparation</div>
+      <div>http://example.com/2025/09/24/Interview-questions-preparation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Mingtao Nie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>September 24, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/21/UCB-CS188-Pacman-Agent-1/" title="UCB CS188:Pacman Agent(1)">
+                        <span class="hidden-mobile">UCB CS188:Pacman Agent(1)</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"lemondrops608/lemondrops608.github.io","repo-id":"R_kgDOPrOX5g","category":"Announcements","category-id":"DIC_kwDOPrOX5s4CvH4g","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":1,"input-position":"top","lang":"en"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
