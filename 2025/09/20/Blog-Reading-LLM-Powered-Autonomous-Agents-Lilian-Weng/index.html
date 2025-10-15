@@ -1,0 +1,898 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/lemonicon.jpg">
+  <link rel="icon" href="/img/lemonicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mingtao Nie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="该博文深入探讨了以大型语言模型（LLM）为核心控制器来构建自主智能代理（Autonomous Agents） 的概念、架构、组件、案例研究及其面临的挑战。文章指出，LLM的潜力远不止于生成文本，更可被视为一个强大的通用问题解决器，作为代理的“大脑”。 核心架构概述 一个LLM驱动的自主代理系统通常由三个关键组件协同工作：  规划（Planning）：代理的核心思维能力，用于分解任务和反">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blog Reading:LLM Powered Autonomous Agents -Lilian Weng">
+<meta property="og:url" content="http://example.com/2025/09/20/Blog-Reading-LLM-Powered-Autonomous-Agents-Lilian-Weng/index.html">
+<meta property="og:site_name" content="Lemondrops&#39; Blog">
+<meta property="og:description" content="该博文深入探讨了以大型语言模型（LLM）为核心控制器来构建自主智能代理（Autonomous Agents） 的概念、架构、组件、案例研究及其面临的挑战。文章指出，LLM的潜力远不止于生成文本，更可被视为一个强大的通用问题解决器，作为代理的“大脑”。 核心架构概述 一个LLM驱动的自主代理系统通常由三个关键组件协同工作：  规划（Planning）：代理的核心思维能力，用于分解任务和反">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-20T08:06:58.000Z">
+<meta property="article:modified_time" content="2025-09-20T08:14:12.595Z">
+<meta property="article:author" content="Mingtao Nie">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Blog Reading:LLM Powered Autonomous Agents -Lilian Weng - Lemondrops&#39; Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lemondrops&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>Links</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/background_whitecliff1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Blog Reading:LLM Powered Autonomous Agents -Lilian Weng"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Mingtao Nie
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-20 16:06" pubdate>
+          September 20, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Blog Reading:LLM Powered Autonomous Agents -Lilian Weng</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    Last updated on September 20, 2025 pm
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>该博文深入探讨了以<strong>大型语言模型（LLM）为核心控制器</strong>来构建<strong>自主智能代理（Autonomous
+Agents）</strong>
+的概念、架构、组件、案例研究及其面临的挑战。文章指出，LLM的潜力远不止于生成文本，更可被视为一个强大的通用问题解决器，作为代理的“大脑”。</p>
+<h3 id="核心架构概述">核心架构概述</h3>
+<p>一个LLM驱动的自主代理系统通常由三个关键组件协同工作：</p>
+<ol type="1">
+<li><strong>规划（Planning）</strong>：代理的核心思维能力，用于分解任务和反思改进。</li>
+<li><strong>记忆（Memory）</strong>：代理的存储系统，用于保留和召回信息。</li>
+<li><strong>工具使用（Tool
+Use）</strong>：代理与外部世界交互的手段，扩展其内在能力。</li>
+</ol>
+<h3 id="组件一规划-planning">组件一：规划 (Planning)</h3>
+<p>规划使代理能够处理复杂任务，主要包括两个方面：</p>
+<p><strong>1. 任务分解 (Task Decomposition)</strong> *
+<strong>思维链（CoT）</strong>：标准技术，通过“一步一步思考”的提示，将复杂任务分解为更小、更简单的步骤。
+*
+<strong>思维树（ToT）</strong>：CoT的扩展，在每一步探索多种推理可能性，形成树状结构，并通过广度优先搜索（BFS）或深度优先搜索（DFS）进行搜索，由分类器（通过提示）或多数投票评估状态。
+*
+<strong>分解方法</strong>：可通过LLM简单提示、任务特定指令或人类输入完成。
+*
+<strong>LLM+P</strong>：一种独特方法，将长期规划外包给<strong>外部经典规划器</strong>。LLM负责将问题转换为规划域定义语言（PDDL），
+classical
+planner生成计划，LLM再将计划转换回自然语言。该方法依赖于现成的领域PDDL和规划器。</p>
+<p><strong>2. 自我反思 (Self-Reflection)</strong>
+自我反思使代理能够从错误中学习，迭代改进其行动和策略。 *
+<strong>ReAct（Reason +
+Act）</strong>：将<strong>推理</strong>（生成自然语言思考轨迹）和<strong>行动</strong>（调用特定任务API）结合在一个框架内。其提示模板格式为：<code>Thought: ... Action: ... Observation: ...</code>。研究表明，ReAct在知识密集和决策任务上均优于仅行动的基线。
+*
+<strong>Reflexion</strong>：一个为代理配备动态记忆和自我反思能力的框架，其灵感来自强化学习（RL）设置。它引入了一种<strong>启发式函数</strong>来检测低效规划或幻觉（连续相同动作导致相同观察），并决定何时停止当前轨迹并重置环境。通过<strong>少样本示例</strong>让LLM生成自我反思，并将这些反思存入工作记忆中以指导未来规划。
+* **
+hindsight（CoH）<strong>：通过向模型展示一个</strong>带有反馈的过去输出序列<strong>（按奖励排序）进行监督微调，训练模型根据反馈历史趋势生成更好的输出。
+*
+</strong>算法蒸馏（AD）<strong>：将CoH思想应用于强化学习。它将</strong>跨
+episode
+的学习历史<strong>串联起来作为模型的输入，目的是让模型学会</strong>强化学习过程本身**，从而在上下文中表现出学习行为，其性能接近在线RL方法。</p>
+<h3 id="组件二记忆-memory">组件二：记忆 (Memory)</h3>
+<p>记忆使代理能够积累和利用过去的信息。 *
+<strong>记忆类型</strong>（类比人类记忆）： *
+<strong>感官记忆</strong>：类比于对原始输入（文本、图像等）学习嵌入表示。
+*
+<strong>短期记忆</strong>：类比于<strong>上下文学习</strong>。受Transformer上下文窗口长度限制，容量有限。
+* <strong>长期记忆</strong>：类比于<strong>外部向量存储</strong>（Vector
+Store），通过快速检索访问，提供近乎无限的存储容量。 *
+<strong>最大内积搜索（MIPS）</strong>：为了快速从向量库中检索信息，常使用<strong>近似最近邻（ANN）</strong>
+算法。文章介绍了几种常见算法： * <strong>LSH</strong>（局部敏感哈希） *
+<strong>ANNOY</strong>（基于随机投影树） *
+<strong>HNSW</strong>（分层可导航小世界图） *
+<strong>FAISS</strong>（基于向量量化） *
+<strong>ScaNN</strong>（各向异性向量量化）</p>
+<h3 id="组件三工具使用-tool-use">组件三：工具使用 (Tool Use)</h3>
+<p>工具使用极大地扩展了LLM的能力边界，使其能够获取实时信息、执行代码等。
+*
+<strong>MRKL</strong>：一种神经符号架构，LLM作为<strong>路由器</strong>，将问题路由到最适合的<strong>专家模块</strong>（可以是神经或符号工具，如计算器、API）。关键在于LLM能否可靠地决定<strong>何时</strong>及<strong>如何</strong>使用工具。
+* <strong>TALM &amp;
+Toolformer</strong>：通过微调LLM来学习调用外部工具API。数据集通过判断添加API调用是否能改进输出质量来构建。
+* <strong>实践案例</strong>：ChatGPT Plugins 和 OpenAI API function
+calling 是工具增强LLM的实际例子。 *
+<strong>HuggingGPT</strong>：一个框架，利用ChatGPT作为<strong>任务规划器</strong>，根据模型描述选择HuggingFace平台上的模型，并总结执行结果。其工作流程分为四个阶段：
+1. <strong>任务规划</strong>：LLM解析用户请求为多个任务。 2.
+<strong>模型选择</strong>：LLM将任务分配给专家模型。 3.
+<strong>任务执行</strong>：专家模型执行任务。 4.
+<strong>响应生成</strong>：LLM汇总结果返回给用户。 *
+<strong>API-Bank</strong>：一个用于评估工具增强LLM性能的基准测试，包含53个API工具和264个对话。它在三个层次上评估代理：
+* <strong>Level-1</strong>：调用给定API的能力。 *
+<strong>Level-2</strong>：检索正确API的能力。 *
+<strong>Level-3</strong>：超越检索和调用的规划能力（处理模糊用户请求，需多次API调用）。</p>
+<h3 id="案例研究-case-studies">案例研究 (Case Studies)</h3>
+<ol type="1">
+<li><strong>科学发现代理</strong>：
+<ul>
+<li><strong>ChemCrow</strong>：一个用于化学领域（有机合成、药物发现等）的代理，集成了13个专家设计的工具。使用ReAct和MRKL模式。<strong>关键发现</strong>：人类专家评估发现ChemCrow远优于GPT-4，突显了LLM在专业领域自我评估的局限性。</li>
+<li><strong>Boiko et
+al.</strong>：探索LLM代理自主设计、规划和执行复杂科学实验，使用互联网浏览、文档阅读、代码执行、机器人实验API等工具。同时讨论了其用于合成化学武器等风险。</li>
+</ul></li>
+<li><strong>生成式代理模拟</strong>：
+<ul>
+<li><strong>Generative
+Agents</strong>：一个有趣的实验，25个由LLM驱动的虚拟角色在一个沙盒环境中生活互动（类似《模拟人生》）。代理架构结合了：
+<ul>
+<li><strong>记忆流</strong>：记录代理经验的外部数据库。</li>
+<li><strong>检索模型</strong>：根据<strong>相关性、新近性和重要性</strong>从记忆流中检索信息。</li>
+<li><strong>反思机制</strong>：将记忆合成为更高层次的推断，指导未来行为。</li>
+<li><strong>规划与反应</strong>：将反射和环境信息转化为行动。</li>
+</ul></li>
+<li>结果涌现出信息传播、关系记忆和社交事件协调等<strong>逼真的社会行为</strong>。</li>
+</ul></li>
+<li><strong>概念验证示例</strong>：
+<ul>
+<li><strong>AutoGPT</strong>：一个著名的PoC演示，展示了自主代理的潜力。其系统提示定义了目标、约束、可用命令（如谷歌搜索、读写文件、执行代码等），并要求以特定JSON格式响应。大量代码用于解析自然语言输出。</li>
+<li><strong>GPT-Engineer</strong>：根据自然语言任务描述生成整个代码库。其工作流程包括：首先要求LLM<strong>澄清任务细节</strong>，然后进入<strong>代码生成模式</strong>（使用详细的系统提示，要求生成完整、可运行、跨文件兼容的代码）。</li>
+</ul></li>
+</ol>
+<h3 id="挑战-challenges">挑战 (Challenges)</h3>
+<p>文章最后指出了构建LLM驱动代理面临的主要挑战： 1.
+<strong>有限的上下文长度</strong>：限制了历史信息、详细指令和API上下文的包含。虽然向量存储提供了扩展，但其表示能力不如全注意力机制。
+2.
+<strong>长期规划与任务分解的困难</strong>：LLM在根据意外错误调整计划方面存在困难，其稳健性不如人类。
+3.
+<strong>自然语言接口的可靠性</strong>：LLM的输出可能存在格式错误或偶尔拒绝指令，导致系统需要大量代码来解析输出，可靠性成为问题。</p>
+<h3 id="总结">总结</h3>
+<p>这篇博文全面综述了LLM驱动自主代理的技术蓝图，将其分解为规划、记忆和使用工具三大核心模块，并辅以丰富的技术细节（如ReAct、Reflexion、HNSW、HuggingGPT等）和生动案例（ChemCrow,
+Generative Agents,
+AutoGPT）。最后，它客观地指出了当前技术在实际应用中面临的上下文限制、规划可靠性和接口稳定性等关键挑战，为读者提供了对该领域深入且系统的理解。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog-Reading/" class="category-chain-item">Blog Reading</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Agent/" class="print-no-link">#Agent</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Blog Reading:LLM Powered Autonomous Agents -Lilian Weng</div>
+      <div>http://example.com/2025/09/20/Blog-Reading-LLM-Powered-Autonomous-Agents-Lilian-Weng/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Mingtao Nie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>September 20, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/09/21/UCB-CS188-Pacman-Agent-1/" title="UCB CS188:Pacman Agent(1)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UCB CS188:Pacman Agent(1)</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/07/computer_network/" title="计算机网络笔记">
+                        <span class="hidden-mobile">计算机网络笔记</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"lemondrops608/lemondrops608.github.io","repo-id":"R_kgDOPrOX5g","category":"Announcements","category-id":"DIC_kwDOPrOX5s4CvH4g","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":1,"input-position":"top","lang":"en"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
