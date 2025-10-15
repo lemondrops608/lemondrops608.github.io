@@ -19,17 +19,22 @@
   <meta name="author" content="Mingtao Nie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="博客文章标题：解谜周期信号的傅里叶变换：从第一页的“天书”公式到第二页的例题实战 引言 在学习信号与系统或数字信号处理时，当我们翻到“周期信号的傅里叶变换”这一节，常常会遭遇一场“认知风暴”。教材的第一页可能会直接抛出一个充斥着冲激函数和无穷求和的复杂公式，让人摸不着头脑。而紧接着的第二页，例题在使用这个公式时，又似乎“违背”了定义，只计算了“一个周期”的变换。 你是否也曾感到困惑： 1.">
+    <meta name="description" content="解谜周期信号的傅里叶变换：从第一页的”天书”公式到第二页的例题实战 引言 在学习信号与系统或数字信号处理时，当我们翻到”周期信号的傅里叶变换”这一节，常常会遭遇一场”认知风暴”。教材的第一页可能会直接抛出一个充斥着冲激函数和无穷求和的复杂公式，让人摸不着头脑。而紧接着的第二页，例题在使用这个公式时，又似乎”违背”了定义，只计算了”一个周期”的变换。   你是否也曾感到困惑：  第一页的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fancy-thinking-about-DSP">
 <meta property="og:url" content="http://example.com/2025/10/14/fancy-thinking-about-DSP/index.html">
 <meta property="og:site_name" content="Lemondrops&#39; Blog">
-<meta property="og:description" content="博客文章标题：解谜周期信号的傅里叶变换：从第一页的“天书”公式到第二页的例题实战 引言 在学习信号与系统或数字信号处理时，当我们翻到“周期信号的傅里叶变换”这一节，常常会遭遇一场“认知风暴”。教材的第一页可能会直接抛出一个充斥着冲激函数和无穷求和的复杂公式，让人摸不着头脑。而紧接着的第二页，例题在使用这个公式时，又似乎“违背”了定义，只计算了“一个周期”的变换。 你是否也曾感到困惑： 1.">
+<meta property="og:description" content="解谜周期信号的傅里叶变换：从第一页的”天书”公式到第二页的例题实战 引言 在学习信号与系统或数字信号处理时，当我们翻到”周期信号的傅里叶变换”这一节，常常会遭遇一场”认知风暴”。教材的第一页可能会直接抛出一个充斥着冲激函数和无穷求和的复杂公式，让人摸不着头脑。而紧接着的第二页，例题在使用这个公式时，又似乎”违背”了定义，只计算了”一个周期”的变换。   你是否也曾感到困惑：  第一页的">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2025/10/14/img/DSP/1.jpg">
 <meta property="article:published_time" content="2025-10-14T02:29:41.000Z">
-<meta property="article:modified_time" content="2025-10-15T12:15:14.109Z">
+<meta property="article:modified_time" content="2025-10-15T14:59:22.781Z">
 <meta property="article:author" content="Mingtao Nie">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="傅里叶变换">
+<meta property="article:tag" content="信号处理">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/10/14/img/DSP/1.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -241,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k words
+          1.9k words
         
       </span>
     
@@ -252,7 +257,7 @@
         
         
         
-          18 mins
+          16 mins
         
       </span>
     
@@ -303,110 +308,148 @@
               <div class="markdown-body">
                 
                 <h3
-id="博客文章标题解谜周期信号的傅里叶变换从第一页的天书公式到第二页的例题实战">博客文章标题：解谜周期信号的傅里叶变换：从第一页的“天书”公式到第二页的例题实战</h3>
-<p><strong>引言</strong></p>
-<p>在学习信号与系统或数字信号处理时，当我们翻到“周期信号的傅里叶变换”这一节，常常会遭遇一场“认知风暴”。教材的第一页可能会直接抛出一个充斥着冲激函数和无穷求和的复杂公式，让人摸不着头脑。而紧接着的第二页，例题在使用这个公式时，又似乎“违背”了定义，只计算了“一个周期”的变换。</p>
-<p>你是否也曾感到困惑： 1. 第一页的公式是怎么来的？为什么长得这么奇怪？
-2. 为什么例题里用了这个公式，算出来的却不是完整的变换？ 3.
-那个神秘的、对所有整数 <code>k</code> 的求和到底是什么意思？</p>
+id="解谜周期信号的傅里叶变换从第一页的天书公式到第二页的例题实战">解谜周期信号的傅里叶变换：从第一页的”天书”公式到第二页的例题实战</h3>
+<h4 id="引言">引言</h4>
+<p>在学习信号与系统或数字信号处理时，当我们翻到”周期信号的傅里叶变换”这一节，常常会遭遇一场”认知风暴”。教材的第一页可能会直接抛出一个充斥着冲激函数和无穷求和的复杂公式，让人摸不着头脑。而紧接着的第二页，例题在使用这个公式时，又似乎”违背”了定义，只计算了”一个周期”的变换。</p>
+<p><img src="../img/DSP/1.jpg" srcset="/img/loading.gif" lazyload title="图片1" alt="图片1" /> <img
+src="../img/DSP/2.jpg" srcset="/img/loading.gif" lazyload title="图片2" alt="图片2" /></p>
+<p>你是否也曾感到困惑：</p>
+<ol type="1">
+<li>第一页的公式是怎么来的？为什么长得这么奇怪？</li>
+<li>为什么例题里用了这个公式，算出来的却不是完整的变换？</li>
+<li>那个神秘的、对所有整数 <code>k</code> 的求和到底是什么意思？</li>
+</ol>
 <p>本文就将沿着这条思考路径，为你彻底解开这些谜团。</p>
 <h4 id="第一页的公式为何凭空出现不知所云">1.
-第一页的公式：为何“凭空出现”，不知所云？</h4>
+第一页的公式：为何”凭空出现”，不知所云？</h4>
 <p>我们看到的第一页公式，通常是这样的：</p>
-<p><span class="math display">$$ \widetilde{X}(e^{j\omega}) =
+<p><span class="math display">\[ \widetilde{X}(e^{j\omega}) =
 \sum_{k=-\infty}^{\infty} \frac{2\pi}{N} \widetilde{X}[k] \delta(\omega
-- \frac{2\pi k}{N}) $$</span></p>
-<p><strong>初次接触的困惑点：</strong> * <strong>对象不明：</strong>
-这个公式处理的是无限长的<strong>周期</strong>信号
-<code>$\tilde&#123;x&#125;[n]$</code>。 * <strong>定义突兀：</strong>
-它没有像非周期信号那样从DTFT的求和式推导过来，而是直接“定义”出来的。因为它知道，对于周期信号，直接套用DTFT求和会得到无穷大，根本不收敛。
-* <strong>符号诡异：</strong> 求和是对所有整数 <code>k</code> 进行的，但
-<code>\(\widetilde&#123;X&#125;[k]\)</code>
-是离散傅里叶级数（DFS）系数，它本身是周期为N的序列。一个周期序列的系数，为什么要对所有整数求和？信息不是重复的吗？</p>
-<p>这个公式更像是一个<strong>“宪法总纲”</strong>，它从最高原则上<strong>定义</strong>了周期信号的傅里叶变换应该是什么样子：<strong>即在频率轴上的一串冲激函数</strong>。但它并没有立即告诉我们这个“宪法”是如何被“立法”出来的。这正是困惑的源头。</p>
+- \frac{2\pi k}{N}) \]</span></p>
+<p><strong>初次接触的困惑点：</strong></p>
+<ul>
+<li><strong>对象不明：</strong>
+这个公式处理的是无限长的<strong>周期</strong>信号 <span
+class="math inline">\(\tilde{x}[n]\)</span>。</li>
+<li><strong>定义突兀：</strong>
+它没有像非周期信号那样从DTFT的求和式推导过来，而是直接”定义”出来的。因为它知道，对于周期信号，直接套用DTFT求和会得到无穷大，根本不收敛<a
+href="@ref">1,2</a>。</li>
+<li><strong>符号诡异：</strong> 求和是对所有整数 <code>k</code>
+进行的，但 <span class="math inline">\(\widetilde{X}[k]\)</span>
+是离散傅里叶级数（DFS）系数，它本身是周期为N的序列。一个周期序列的系数，为什么要对所有整数求和？信息不是重复的吗？</li>
+</ul>
+<p>这个公式更像是一个<strong>“宪法总纲”</strong>，它从最高原则上<strong>定义</strong>了周期信号的傅里叶变换应该是什么样子：<strong>即在频率轴上的一串冲激函数</strong>。但它并没有立即告诉我们这个”宪法”是如何被”立法”出来的。这正是困惑的源头。</p>
 <h4 id="第二页的例题为何莫名变成一个周期的变换">2.
-第二页的例题：为何“莫名”变成一个周期的变换？</h4>
-<p>当我们带着困惑看向例题（例如求 <code>\(cos(0.1\pi n)\)</code>
+第二页的例题：为何”莫名”变成一个周期的变换？</h4>
+<p>当我们带着困惑看向例题（例如求 <span
+class="math inline">\(\cos(0.1\pi n)\)</span>
 的傅里叶变换）时，会发现一个更奇怪的现象。</p>
-<p>例题的步骤通常是： 1. 求出信号的DFS系数
-<code>\(\widetilde&#123;X&#125;[k]\)</code>。 2. 将DFS系数代入第一页的公式。 3.
-但<strong>它并没有真的对k从负无穷到正无穷求和</strong>，而是只代入了主值区间（如k=-1,
-1）的系数，得到了一个结果：
-<code>$$ \widetilde&#123;X&#125;(e^&#123;j\omega&#125;) = \pi[\delta(\omega - 0.1\pi) + \delta(\omega + 0.1\pi)] $$</code>
-并称此为“<strong>一个周期内的傅里叶变换</strong>”。</p>
+<p>例题的步骤通常是：</p>
+<ol type="1">
+<li>求出信号的DFS系数 <span
+class="math inline">\(\widetilde{X}[k]\)</span>。</li>
+<li>将DFS系数代入第一页的公式。</li>
+<li>但<strong>它并没有真的对k从负无穷到正无穷求和</strong>，而是只代入了主值区间（如k=-1,
+1）的系数，得到了一个结果：</li>
+</ol>
+<p><span class="math display">\[ \widetilde{X}(e^{j\omega}) =
+\pi[\delta(\omega - 0.1\pi) + \delta(\omega + 0.1\pi)] \]</span></p>
+<p>并称此为”<strong>一个周期内的傅里叶变换</strong>”。</p>
 <p><strong>这里的矛盾感达到了顶峰：</strong>
-第一页的定义明明要求对全体k求和，凭什么这里只算几个k就说是“一个周期”的结果？这岂不是偷换了概念？</p>
+第一页的定义明明要求对全体k求和，凭什么这里只算几个k就说是”一个周期”的结果？这岂不是偷换了概念？</p>
 <h4 id="第一页公式的推导破解双重求和的等价性谜题">3.
-第一页公式的推导：破解“双重求和”的等价性谜题</h4>
-<p>要解决上述矛盾，我们必须回头补上第一页公式的“立法过程”。推导的核心思想是：<strong>将周期信号用DFS表示，然后形式地计算其傅里叶变换。</strong></p>
+第一页公式的推导：破解”双重求和”的等价性谜题</h4>
+<p>要解决上述矛盾，我们必须回头补上第一页公式的”立法过程”。推导的核心思想是：<strong>将周期信号用DFS表示，然后形式地计算其傅里叶变换<a
+href="@ref">1,2</a>。</strong></p>
 <p><strong>步骤详解：</strong></p>
 <ol type="1">
-<li><p><strong>起点：</strong> 周期信号 <code>\(\tilde&#123;x&#125;[n]\)</code>
-可以用其DFS系数精确重建：
-<code>$$ \tilde&#123;x&#125;[n] = \frac&#123;1&#125;&#123;N&#125; \sum_&#123;k=\langle N \rangle&#125; \widetilde&#123;X&#125;[k] e^&#123;j \frac&#123;2\pi&#125;&#123;N&#125; k n&#125; $$</code>
-这里的 <code>\(\sum_&#123;k=\langle N \rangle&#125;\)</code>
+<li><p><strong>起点：</strong> 周期信号 <span
+class="math inline">\(\tilde{x}[n]\)</span> 可以用其DFS系数精确重建：
+<span class="math display">\[ \tilde{x}[n] = \frac{1}{N} \sum_{k=\langle
+N \rangle} \widetilde{X}[k] e^{j \frac{2\pi}{N} k n} \]</span> 这里的
+<span class="math inline">\(\sum_{k=\langle N \rangle}\)</span>
 表示在任意一个长度为N的区间内求和，例如k=0到N-1。<strong>这是准确且有限的求和。</strong></p></li>
 <li><p><strong>代入与变换：</strong>
 我们将上述表达式代入（广义）傅里叶变换的框架。我们知道，一个复指数序列
-<code>\(e^&#123;j\omega_0 n&#125;\)</code> 的傅里叶变换是
-<code>\(2\pi \sum_&#123;l=-\infty&#125;^&#123;\infty&#125; \delta(\omega - \omega_0 - 2\pi l)\)</code>。因此，对于DFS和式中的每一项
-<code>\(\frac&#123;1&#125;&#123;N&#125;\widetilde&#123;X&#125;[k] e^&#123;j \frac&#123;2\pi&#125;&#123;N&#125; k n&#125;\)</code>，其傅里叶变换是
-<code>\(\frac&#123;2\pi&#125;&#123;N&#125;\widetilde&#123;X&#125;[k] \sum_&#123;l=-\infty&#125;^&#123;\infty&#125; \delta(\omega - \frac&#123;2\pi k&#125;&#123;N&#125; - 2\pi l)\)</code>。</p></li>
+<span class="math inline">\(e^{j\omega_0 n}\)</span> 的傅里叶变换是
+<span class="math inline">\(2\pi \sum_{l=-\infty}^{\infty} \delta(\omega
+- \omega_0 - 2\pi l)\)</span>。因此，对于DFS和式中的每一项 <span
+class="math inline">\(\frac{1}{N}\widetilde{X}[k] e^{j \frac{2\pi}{N} k
+n}\)</span>，其傅里叶变换是 <span
+class="math inline">\(\frac{2\pi}{N}\widetilde{X}[k]
+\sum_{l=-\infty}^{\infty} \delta(\omega - \frac{2\pi k}{N} - 2\pi
+l)\)</span>。</p></li>
 <li><p><strong>得到初始形式：</strong>
-根据线性性，整个周期信号的傅里叶变换为：
-<code>$$ \widetilde&#123;X&#125;(e^&#123;j\omega&#125;) = \sum_&#123;k=\langle N \rangle&#125; \frac&#123;2\pi&#125;&#123;N&#125; \widetilde&#123;X&#125;[k] \sum_&#123;l=-\infty&#125;^&#123;\infty&#125; \delta(\omega - \frac&#123;2\pi k&#125;&#123;N&#125; - 2\pi l) $$</code>
+根据线性性，整个周期信号的傅里叶变换为： <span class="math display">\[
+\widetilde{X}(e^{j\omega}) = \sum_{k=\langle N \rangle} \frac{2\pi}{N}
+\widetilde{X}[k] \sum_{l=-\infty}^{\infty} \delta(\omega - \frac{2\pi
+k}{N} - 2\pi l) \]</span>
 这个公式已经是正确的，但它是一个<strong>双重求和</strong>。</p></li>
 <li><p><strong>最关键的一步：重新索引（indexing）</strong>
 现在，我们进行一个巧妙的变量代换，来理解为什么双重求和可以简化为单重求和。</p>
 <ul>
-<li>令 <code>\(m = k + lN\)</code>，其中 <code>m</code>
-是任意整数。</li>
-<li>对于任意一个 <code>m</code>，都存在唯一的一组 <code>k</code>
-(在0到N-1之间) 和整数 <code>l</code>，使得
-<code>m = k + lN</code>。</li>
-<li>由于 <code>\(\widetilde&#123;X&#125;[k]\)</code>
-的周期性，<code>\(\widetilde&#123;X&#125;[m] = \widetilde&#123;X&#125;[k]\)</code>。</li>
-<li>再看冲激函数的参数：<code>\(\omega - \frac&#123;2\pi m&#125;&#123;N&#125; = \omega - \frac&#123;2\pi (k + lN)&#125;&#123;N&#125; = \omega - (\frac&#123;2\pi k&#125;&#123;N&#125; + 2\pi l)\)</code>。</li>
-<li>因此，<strong>双重求和</strong>
-<code>\(\sum_&#123;k=\langle N \rangle&#125; \sum_&#123;l=-\infty&#125;^&#123;\infty&#125; \delta(\omega - \frac&#123;2\pi k&#125;&#123;N&#125; - 2\pi l)\)</code>
-<strong>实际上等价于遍历了所有整数</strong> <code>m</code>
-<strong>的单重求和</strong>
-<code>\(\sum_&#123;m=-\infty&#125;^&#123;\infty&#125; \delta(\omega - \frac&#123;2\pi m&#125;&#123;N&#125;)\)</code>！</li>
+<li>令 <span class="math inline">\(m = k + lN\)</span>，其中 <span
+class="math inline">\(m\)</span> 是任意整数。</li>
+<li>对于任意一个 <span
+class="math inline">\(m\)</span>，都存在唯一的一组 <span
+class="math inline">\(k\)</span> (在0到N-1之间) 和整数 <span
+class="math inline">\(l\)</span>，使得 <span class="math inline">\(m = k
++ lN\)</span>。</li>
+<li>由于 <span class="math inline">\(\widetilde{X}[k]\)</span>
+的周期性，<span class="math inline">\(\widetilde{X}[m] =
+\widetilde{X}[k]\)</span>。</li>
+<li>再看冲激函数的参数：<span class="math inline">\(\omega - \frac{2\pi
+m}{N} = \omega - \frac{2\pi (k + lN)}{N} = \omega - (\frac{2\pi k}{N} +
+2\pi l)\)</span>。</li>
+<li>因此，<strong>双重求和</strong> <span
+class="math inline">\(\sum_{k=\langle N \rangle}
+\sum_{l=-\infty}^{\infty} \delta(\omega - \frac{2\pi k}{N} - 2\pi
+l)\)</span> <strong>实际上等价于遍历了所有整数</strong> <span
+class="math inline">\(m\)</span> <strong>的单重求和</strong> <span
+class="math inline">\(\sum_{m=-\infty}^{\infty} \delta(\omega -
+\frac{2\pi m}{N})\)</span>！</li>
 </ul>
-<p>于是，公式被简化为：
-<code>$$ \widetilde&#123;X&#125;(e^&#123;j\omega&#125;) = \sum_&#123;m=-\infty&#125;^&#123;\infty&#125; \frac&#123;2\pi&#125;&#123;N&#125; \widetilde&#123;X&#125;[m] \delta(\omega - \frac&#123;2\pi m&#125;&#123;N&#125;) $$</code>
-将索引 <code>m</code> 换回
-<code>k</code>，就得到了第一页那个“天书”公式。</p></li>
+<p>于是，公式被简化为： <span class="math display">\[
+\widetilde{X}(e^{j\omega}) = \sum_{m=-\infty}^{\infty} \frac{2\pi}{N}
+\widetilde{X}[m] \delta(\omega - \frac{2\pi m}{N}) \]</span> 将索引
+<span class="math inline">\(m\)</span> 换回 <span
+class="math inline">\(k\)</span>，就得到了第一页那个”天书”公式。</p></li>
 </ol>
 <p><strong>至此，谜题一解开：</strong>
 第一页的公式并非凭空出现，它是通过严谨的数学推导，将DFS表示代入傅里叶变换定义后，经过重新索引化简得到的最终形式。那个对全体
-<code>k</code>
+<span class="math inline">\(k\)</span>
 的求和，其<strong>物理意义是遍历频率轴上所有（无限多个）等间隔的频率点</strong>。</p>
 <h4 id="第二页例题的合理性为何能只算一个周期">4.
-第二页例题的合理性：为何能只算“一个周期”？</h4>
-<p>在理解了第一页公式的由来后，第二页例题的做法就变得非常自然和合理了。</p>
+第二页例题的合理性：为何能只算”一个周期”？</h4>
+<p>在理解了第一页公式的由来后，第二页例题的做法就变得非常自然和合理了<a
+href="@ref">3</a>。</p>
 <ul>
-<li><p><strong>频谱的周期性：</strong> 离散时间傅里叶变换
-<code>\(X(e^&#123;j\omega&#125;)\)</code> 本身就是一个以 <code>\(2\pi\)</code>
+<li><p><strong>频谱的周期性：</strong> 离散时间傅里叶变换 <span
+class="math inline">\(X(e^{j\omega})\)</span> 本身就是一个以 <span
+class="math inline">\(2\pi\)</span>
 为周期的周期函数。所以，要描述它，我们只需要写出它在一个周期（通常是
-<code>\([-\pi, \pi)\)</code> 或
-<code>\([0, 2\pi)\)</code>）内的样子就够了，这称为<strong>主值区间</strong>。</p></li>
+<span class="math inline">\([-\pi, \pi)\)</span> 或 <span
+class="math inline">\([0,
+2\pi)\)</span>）内的样子就够了，这称为<strong>主值区间</strong>。</p></li>
 <li><p><strong>例题的聪明之处：</strong>
-例题知道，对于周期信号，其频谱是离散的冲激。在频率主值区间
-<code>\([-\pi, \pi)\)</code>
-内，只会出现有限个冲激。例题通过计算DFS系数发现，只有在 <code>k=1</code>
-和 <code>k=-1</code> (对应 <code>k=19</code>) 时，系数不为零。这两个
-<code>k</code> 值对应的频率点 <code>\(\omega = \pm 0.1\pi\)</code>
-正好落在主值区间 <code>\([-\pi, \pi)\)</code> 内。</p></li>
-<li><p>因此，例题的
-<code>$$ \pi[\delta(\omega - 0.1\pi) + \delta(\omega + 0.1\pi)] $$</code>
+例题知道，对于周期信号，其频谱是离散的冲激。在频率主值区间 <span
+class="math inline">\([-\pi, \pi)\)</span>
+内，只会出现有限个冲激。例题通过计算DFS系数发现，只有在 <span
+class="math inline">\(k=1\)</span> 和 <span
+class="math inline">\(k=-1\)</span> (对应 <span
+class="math inline">\(k=19\)</span>) 时，系数不为零。这两个 <span
+class="math inline">\(k\)</span> 值对应的频率点 <span
+class="math inline">\(\omega = \pm 0.1\pi\)</span> 正好落在主值区间
+<span class="math inline">\([-\pi, \pi)\)</span> 内。</p></li>
+<li><p>因此，例题的 <span class="math display">\[ \pi[\delta(\omega -
+0.1\pi) + \delta(\omega + 0.1\pi)] \]</span>
 正是整个傅里叶变换在<strong>主值区间内的表达式</strong>。而最后一步加上对
-<code>k</code> 的求和
-<code>\(\sum_&#123;k=-\infty&#125;^&#123;+\infty&#125;\)</code>，只是将这个主值区间内的频谱模式进行周期延拓，从而得到在整个频率轴上都成立的<strong>完整表达式</strong>。这两者在数学上是完全等价的。</p></li>
+<span class="math inline">\(k\)</span> 的求和 <span
+class="math inline">\(\sum_{k=-\infty}^{+\infty}\)</span>，只是将这个主值区间内的频谱模式进行周期延拓，从而得到在整个频率轴上都成立的<strong>完整表达式</strong>。这两者在数学上是完全等价的。</p></li>
 </ul>
-<p><strong>结论</strong></p>
-<p>第一页的公式是“宪法”，定义了周期信号傅里叶变换的完整形式。第二页的例题是“司法解释”，展示了如何高效地运用这部“宪法”：先找到主值区间内的有效信息（一个周期内的变换），再利用周期性宣告其在整个定义域内生效。</p>
-<p>希望这篇“破案”笔记，能帮助你彻底理解周期信号傅里叶变换的来龙去脉，让那两页纸的内容不再神秘。</p>
+<h4 id="结论">结论</h4>
+<p>第一页的公式是”宪法”，定义了周期信号傅里叶变换的完整形式。第二页的例题是”司法解释”，展示了如何高效地运用这部”宪法”：先找到主值区间内的有效信息（一个周期内的变换），再利用周期性宣告其在整个定义域内生效。</p>
+<p>希望这篇”破案”笔记，能帮助你彻底理解周期信号傅里叶变换的来龙去脉，让那两页纸的内容不再神秘。</p>
 
                 
               </div>
@@ -415,6 +458,17 @@ id="博客文章标题解谜周期信号的傅里叶变换从第一页的天书�
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/DSP/" class="print-no-link">#DSP</a>
+      
+        <a href="/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" class="print-no-link">#傅里叶变换</a>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+    </div>
   
 </div>
 
